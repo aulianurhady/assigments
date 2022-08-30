@@ -24,12 +24,12 @@ func main() {
 
 	numberInput, err := strconv.Atoi(inputArgs[1])
 	if err != nil {
-		fmt.Errorf("Err", "The input is not number!")
+		fmt.Errorf("Err", "The input from arguments is not number!")
 		return
 	}
 
 	if numberInput > len(listPerson) {
-		fmt.Errorf("Err", "Number from input is out of array length")
+		fmt.Errorf("Err", "Number from arguments input is out of array length")
 		return
 	}
 
