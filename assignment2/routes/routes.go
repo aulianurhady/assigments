@@ -10,6 +10,8 @@ func CreateRouter() *gin.Engine {
 
 	r.POST("/orders", controllers.CreateOrder)
 	r.GET("/orders", controllers.GetOrders)
+	r.PUT("/orders/:orderId", controllers.UpdateOrder)
+	r.DELETE("/orders/:orderId", controllers.RemoveOrder)
 
 	// r.NoRoute(controllers.NoRoute)
 

@@ -19,18 +19,21 @@ type ItemResponse struct {
 	ItemID      int    `json:"item_id"`
 }
 
-func SendResponse(c *gin.Context, data interface{}) {
+func SendResponse(c *gin.Context, data interface{}, err error) {
 	c.Header("Content-Type", "application/json")
 
 	if data == nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"errors": map[string]interface{}{
 				"id":      "ERR-01",
-				"message": "Failed to create/get data",
+				"message": err.Error(),
 			},
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, data)
+	c.JSON(http.StatusOK, gin.H{
+		"data":    data,
+		"message": "success",
+	})
 }

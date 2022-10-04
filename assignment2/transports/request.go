@@ -11,6 +11,7 @@ type Request struct {
 }
 
 type Item struct {
+	LineItemID  int    `json:"lineItemID,omitempty"`
 	ItemCode    string `json:"itemCode"`
 	Description string `json:"description"`
 	Quantity    int    `json:"quantity"`
