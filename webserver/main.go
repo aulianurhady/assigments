@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"webserver/service"
+	"github.com/aulianurhady/training/webserver/service"
 
 	"github.com/gorilla/mux"
 )

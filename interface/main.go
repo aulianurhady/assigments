@@ -1,8 +1,9 @@
 package main
 
 import (
-	"assigment/service"
 	"fmt"
+
+	"github.com/aulianurhady/training/interface/service"
 )
 
 func main() {
