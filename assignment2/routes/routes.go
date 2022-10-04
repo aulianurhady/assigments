@@ -13,7 +13,5 @@ func CreateRouter() *gin.Engine {
 	r.PUT("/orders/:orderId", controllers.UpdateOrder)
 	r.DELETE("/orders/:orderId", controllers.RemoveOrder)
 
-	// r.NoRoute(controllers.NoRoute)
-
 	return r
 }

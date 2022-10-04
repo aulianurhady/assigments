@@ -1,8 +1,6 @@
 package lib
 
 import (
-	"fmt"
-
 	"github.com/aulianurhady/training/assignment2/models"
 	"github.com/aulianurhady/training/assignment2/transports"
 )
@@ -13,10 +11,6 @@ func BuildResponseData(orderData models.Orders, itemData []models.Items) transpo
 		OrderID:      orderData.OrderID,
 		CustomerName: orderData.CustomerName,
 	}
-
-	// items := make([]transports.ItemResponse)
-
-	fmt.Println("LEN: ", len(itemData))
 
 	for _, v := range itemData {
 

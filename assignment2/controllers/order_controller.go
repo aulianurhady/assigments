@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/aulianurhady/training/assignment2/lib"
@@ -178,7 +177,6 @@ func RemoveOrder(c *gin.Context) {
 
 	itemList, err := repoItem.GetListItemByID(db, orderID)
 	if err != nil {
-		fmt.Println("MASUK SINI?")
 		transports.SendResponse(c, nil, err)
 		return
 	}
