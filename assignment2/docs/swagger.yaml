@@ -1,0 +1,129 @@
+definitions:
+  transports.Item:
+    properties:
+      description:
+        type: string
+      itemCode:
+        type: string
+      lineItemID:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  transports.ItemResponse:
+    properties:
+      description:
+        type: string
+      item_code:
+        type: string
+      item_id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  transports.Request:
+    properties:
+      costumerName:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/transports.Item'
+        type: array
+      orderedAt:
+        type: string
+    type: object
+  transports.Response:
+    properties:
+      customer_name:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/transports.ItemResponse'
+        type: array
+      order_id:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /orders:
+    get:
+      description: List of Orders
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/transports.Request'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transports.Response'
+      summary: List of Orders
+      tags:
+      - Orders
+    post:
+      description: Create new Order
+      parameters:
+      - description: Order data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/transports.Request'
+      responses:
+        "200":
+          description: Order data
+          schema:
+            $ref: '#/definitions/transports.Request'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transports.Response'
+      summary: Create new Order
+      tags:
+      - Orders
+    put:
+      description: Update Orders by id
+      parameters:
+      - description: Order data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/transports.Request'
+      responses:
+        "200":
+          description: Order data
+          schema:
+            $ref: '#/definitions/transports.Request'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transports.Response'
+      summary: Update Orders by id
+      tags:
+      - Orders
+  /orders/{id}:
+    delete:
+      description: Delete Orders by id
+      parameters:
+      - description: Orders ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/transports.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transports.Response'
+      summary: Delete Orders by id
+      tags:
+      - Orders
+swagger: "2.0"

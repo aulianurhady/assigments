@@ -11,6 +11,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateOrder godoc
+// @Summary Create new Order
+// @Description Create new Order
+// @Param data body transports.Request true "Order data"
+// @Success 200 {object} transports.Request "Order data"
+// @Failure 400 {object} transports.Response
+// @Router /orders [post]
+// @Tags Orders
 func CreateOrder(c *gin.Context) {
 	db := lib.DB
 	req := transports.Request{}
@@ -48,6 +56,13 @@ func CreateOrder(c *gin.Context) {
 	transports.SendResponse(c, req, nil)
 }
 
+// GetOrders godoc
+// @Summary List of Orders
+// @Description List of Orders
+// @Success 200 {object} []transports.Request List of Orders
+// @Failure 400 {object} transports.Response
+// @Router /orders [get]
+// @Tags Orders
 func GetOrders(c *gin.Context) {
 	db := lib.DB
 	var responseData []transports.Response
@@ -74,6 +89,14 @@ func GetOrders(c *gin.Context) {
 	transports.SendResponse(c, responseData, nil)
 }
 
+// UpdateOrder godoc
+// @Summary Update Orders by id
+// @Description Update Orders by id
+// @Param data body transports.Request true "Order data"
+// @Success 200 {object} transports.Request "Order data"
+// @Failure 400 {object} transports.Response
+// @Router /orders [put]
+// @Tags Orders
 func UpdateOrder(c *gin.Context) {
 	db := lib.DB
 	req := transports.Request{}
@@ -127,6 +150,14 @@ func UpdateOrder(c *gin.Context) {
 	transports.SendResponse(c, req, nil)
 }
 
+// RemoveOrder godoc
+// @Summary Delete Orders by id
+// @Description Delete Orders by id
+// @Param id path string true "Orders ID"
+// @Success 200 {object} transports.Response
+// @Failure 400 {object} transports.Response
+// @Router /orders/{id} [delete]
+// @Tags Orders
 func RemoveOrder(c *gin.Context) {
 	db := lib.DB
 	var repoOrder repository.IOrderRepository

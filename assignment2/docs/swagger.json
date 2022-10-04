@@ -1,0 +1,200 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/orders": {
+            "get": {
+                "description": "List of Orders",
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "List of Orders",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/transports.Request"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update Orders by id",
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update Orders by id",
+                "parameters": [
+                    {
+                        "description": "Order data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/transports.Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order data",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Request"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create new Order",
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create new Order",
+                "parameters": [
+                    {
+                        "description": "Order data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/transports.Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order data",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Request"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "delete": {
+                "description": "Delete Orders by id",
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Delete Orders by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Orders ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/transports.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "transports.Item": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "itemCode": {
+                    "type": "string"
+                },
+                "lineItemID": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "transports.ItemResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "item_code": {
+                    "type": "string"
+                },
+                "item_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "transports.Request": {
+            "type": "object",
+            "properties": {
+                "costumerName": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/transports.Item"
+                    }
+                },
+                "orderedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "transports.Response": {
+            "type": "object",
+            "properties": {
+                "customer_name": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/transports.ItemResponse"
+                    }
+                },
+                "order_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
