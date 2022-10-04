@@ -14,6 +14,8 @@ import (
 func CreateOrder(c *gin.Context) {
 	db := lib.DB
 	req := transports.Request{}
+	var repoOrder repository.IOrderRepository
+	var repoItem repository.IItemRepository
 
 	if err := c.BindJSON(&req); err != nil {
 		transports.SendResponse(c, nil, err)
@@ -25,7 +27,7 @@ func CreateOrder(c *gin.Context) {
 		OrderedAt:    req.OrderedAt,
 	}
 
-	if err := repository.CreateDataOrder(db, &orderData); err != nil {
+	if err := repoOrder.CreateDataOrder(db, &orderData); err != nil {
 		transports.SendResponse(c, nil, err)
 		return
 	}
@@ -37,7 +39,7 @@ func CreateOrder(c *gin.Context) {
 			Quantity:    v.Quantity,
 			OrderID:     orderData.OrderID,
 		}
-		if err := repository.CreateDataItem(db, &itemData); err != nil {
+		if err := repoItem.CreateDataItem(db, &itemData); err != nil {
 			transports.SendResponse(c, nil, err)
 			return
 		}
@@ -49,15 +51,17 @@ func CreateOrder(c *gin.Context) {
 func GetOrders(c *gin.Context) {
 	db := lib.DB
 	var responseData []transports.Response
+	var repoOrder repository.IOrderRepository
+	var repoItem repository.IItemRepository
 
-	orderData, err := repository.GetListOrder(db)
+	orderData, err := repoOrder.GetListOrder(db)
 	if err != nil {
 		transports.SendResponse(c, nil, err)
 		return
 	}
 
 	for _, v := range orderData {
-		itemData, err := repository.GetListItemByID(db, v.OrderID)
+		itemData, err := repoItem.GetListItemByID(db, v.OrderID)
 		if err != nil {
 			transports.SendResponse(c, nil, err)
 			return
@@ -73,6 +77,8 @@ func GetOrders(c *gin.Context) {
 func UpdateOrder(c *gin.Context) {
 	db := lib.DB
 	req := transports.Request{}
+	var repoOrder repository.IOrderRepository
+	var repoItem repository.IItemRepository
 
 	if err := c.BindJSON(&req); err != nil {
 		transports.SendResponse(c, nil, err)
@@ -81,7 +87,7 @@ func UpdateOrder(c *gin.Context) {
 
 	orderID, _ := strconv.Atoi(c.Param("orderId"))
 
-	orderData, err := repository.GetDataOrderByID(db, orderID)
+	orderData, err := repoOrder.GetDataOrderByID(db, orderID)
 	if err != nil {
 		transports.SendResponse(c, nil, err)
 		return
@@ -93,13 +99,13 @@ func UpdateOrder(c *gin.Context) {
 		OrderedAt:    req.OrderedAt,
 	}
 
-	if err := repository.UpdateDataOrder(db, &updatedOrderData); err != nil {
+	if err := repoOrder.UpdateDataOrder(db, &updatedOrderData); err != nil {
 		transports.SendResponse(c, nil, err)
 		return
 	}
 
 	for _, v := range req.CustomerItems {
-		itemData, err := repository.GetDataItemByID(db, v.LineItemID)
+		itemData, err := repoItem.GetDataItemByID(db, v.LineItemID)
 		if err != nil {
 			transports.SendResponse(c, nil, err)
 			return
@@ -112,7 +118,7 @@ func UpdateOrder(c *gin.Context) {
 			Quantity:    v.Quantity,
 		}
 
-		if err := repository.UpdateDataItem(db, &updatedItemData); err != nil {
+		if err := repoItem.UpdateDataItem(db, &updatedItemData); err != nil {
 			transports.SendResponse(c, nil, err)
 			return
 		}
@@ -123,21 +129,23 @@ func UpdateOrder(c *gin.Context) {
 
 func RemoveOrder(c *gin.Context) {
 	db := lib.DB
+	var repoOrder repository.IOrderRepository
+	var repoItem repository.IItemRepository
 
 	orderID, _ := strconv.Atoi(c.Param("orderId"))
 
-	orderData, err := repository.GetDataOrderByID(db, orderID)
+	orderData, err := repoOrder.GetDataOrderByID(db, orderID)
 	if err != nil {
 		transports.SendResponse(c, nil, err)
 		return
 	}
 
-	if err := repository.DeleteDataOrder(db, &orderData); err != nil {
+	if err := repoOrder.DeleteDataOrder(db, &orderData); err != nil {
 		transports.SendResponse(c, nil, err)
 		return
 	}
 
-	itemList, err := repository.GetListItemByID(db, orderID)
+	itemList, err := repoItem.GetListItemByID(db, orderID)
 	if err != nil {
 		fmt.Println("MASUK SINI?")
 		transports.SendResponse(c, nil, err)
@@ -145,7 +153,7 @@ func RemoveOrder(c *gin.Context) {
 	}
 
 	for _, v := range itemList {
-		if err := repository.DeleteDataItem(db, &v); err != nil {
+		if err := repoItem.DeleteDataItem(db, &v); err != nil {
 			transports.SendResponse(c, nil, err)
 			return
 		}

@@ -13,11 +13,13 @@ type OrderRepository interface {
 	DeleteDataOrder(*gorm.DB, *models.Orders) error
 }
 
-func CreateDataOrder(tx *gorm.DB, data *models.Orders) error {
+type IOrderRepository struct{}
+
+func (IOrderRepository) CreateDataOrder(tx *gorm.DB, data *models.Orders) error {
 	return tx.Create(&data).Error
 }
 
-func GetListOrder(tx *gorm.DB) ([]models.Orders, error) {
+func (IOrderRepository) GetListOrder(tx *gorm.DB) ([]models.Orders, error) {
 	var data []models.Orders
 
 	if err := tx.Find(&data).Error; err != nil {
@@ -27,7 +29,7 @@ func GetListOrder(tx *gorm.DB) ([]models.Orders, error) {
 	return data, nil
 }
 
-func GetDataOrderByID(tx *gorm.DB, id int) (models.Orders, error) {
+func (IOrderRepository) GetDataOrderByID(tx *gorm.DB, id int) (models.Orders, error) {
 	var data models.Orders
 
 	if err := tx.Where("order_id = ?", id).First(&data).Error; err != nil {
@@ -37,10 +39,10 @@ func GetDataOrderByID(tx *gorm.DB, id int) (models.Orders, error) {
 	return data, nil
 }
 
-func UpdateDataOrder(tx *gorm.DB, data *models.Orders) error {
+func (IOrderRepository) UpdateDataOrder(tx *gorm.DB, data *models.Orders) error {
 	return tx.Model(&data).Updates(&data).Error
 }
 
-func DeleteDataOrder(tx *gorm.DB, data *models.Orders) error {
+func (IOrderRepository) DeleteDataOrder(tx *gorm.DB, data *models.Orders) error {
 	return tx.Delete(&data).Error
 }
