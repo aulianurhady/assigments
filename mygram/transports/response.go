@@ -32,6 +32,14 @@ type ResponseComment struct {
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 }
 
+type ResponseSocialMedia struct {
+	ID             int        `json:"id,omitempty"`
+	UserID         int        `json:"user_id,omitempty"`
+	SocialMediaURL string     `json:"social_media_url,omitempty"`
+	Name           string     `json:"name,omitempty"`
+	CreatedAt      *time.Time `json:"created_at,omitempty"`
+}
+
 func NewResponseUser(data *models.User) *ResponseUser {
 	return &ResponseUser{
 		Age:       data.Age,
@@ -60,6 +68,16 @@ func NewResponseComment(data *models.Comment) *ResponseComment {
 		Message:   data.Message,
 		UserID:    data.UserID,
 		CreatedAt: data.CreatedAt,
+	}
+}
+
+func NewResponseSocialMedia(data *models.SocialMedia) *ResponseSocialMedia {
+	return &ResponseSocialMedia{
+		ID:             data.ID,
+		SocialMediaURL: data.SocialMediaURL,
+		Name:           data.Name,
+		UserID:         data.UserID,
+		CreatedAt:      data.CreatedAt,
 	}
 }
 

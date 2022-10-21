@@ -17,3 +17,8 @@ type RequestComment struct {
 	PhotoID int    `json:"photo_id,omitempty"`
 	Message string `json:"message,omitempty"`
 }
+
+type RequestSocialMedia struct {
+	Name           string `json:"name,omitempty"`
+	SocialMediaURL string `json:"social_media_url,omitempty"`
+}
