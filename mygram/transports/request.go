@@ -12,3 +12,8 @@ type RequestPhoto struct {
 	Caption  string `json:"caption,omitempty"`
 	PhotoURL string `json:"photo_url,omitempty"`
 }
+
+type RequestComment struct {
+	PhotoID int    `json:"photo_id,omitempty"`
+	Message string `json:"message,omitempty"`
+}

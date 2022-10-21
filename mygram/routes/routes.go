@@ -17,8 +17,14 @@ func CreateRouter() *gin.Engine {
 	// Photos
 	r.POST("/photos", controllers.PhotoInsert)
 	r.GET("/photos", controllers.GetListPhotos)
-	r.PUT("/photos/:photoID", controllers.PhotoUpdate)
-	r.DELETE("/photos/:photoID", controllers.PhotoDelete)
+	r.PUT("/photos/:photoId", controllers.PhotoUpdate)
+	r.DELETE("/photos/:photoId", controllers.PhotoDelete)
+
+	// Comments
+	r.POST("/comments", controllers.CommentInsert)
+	r.GET("/comments", controllers.GetListComments)
+	r.PUT("/comments/:commentId", controllers.CommentUpdate)
+	r.DELETE("/comments/:commentId", controllers.CommentDelete)
 
 	return r
 }

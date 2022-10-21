@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type responseUser struct {
+type ResponseUser struct {
 	Age       int        `json:"age,omitempty"`
 	Email     string     `json:"email,omitempty"`
 	ID        int        `json:"id,omitempty"`
@@ -15,7 +15,7 @@ type responseUser struct {
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 }
 
-type responsePhoto struct {
+type ResponsePhoto struct {
 	ID        int        `json:"id,omitempty"`
 	Title     string     `json:"title,omitempty"`
 	Caption   string     `json:"caption,omitempty"`
@@ -24,8 +24,16 @@ type responsePhoto struct {
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 }
 
-func NewResponseUser(data *models.User) *responseUser {
-	return &responseUser{
+type ResponseComment struct {
+	ID        int        `json:"id,omitempty"`
+	UserID    int        `json:"user_id,omitempty"`
+	PhotoID   int        `json:"photo_id,omitempty"`
+	Message   string     `json:"message,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+func NewResponseUser(data *models.User) *ResponseUser {
+	return &ResponseUser{
 		Age:       data.Age,
 		Email:     data.Email,
 		ID:        data.ID,
@@ -34,12 +42,22 @@ func NewResponseUser(data *models.User) *responseUser {
 	}
 }
 
-func NewResponsePhoto(data *models.Photo) *responsePhoto {
-	return &responsePhoto{
+func NewResponsePhoto(data *models.Photo) *ResponsePhoto {
+	return &ResponsePhoto{
 		ID:        data.ID,
 		Title:     data.Title,
 		Caption:   data.Caption,
 		PhotoURL:  data.PhotoURL,
+		UserID:    data.UserID,
+		CreatedAt: data.CreatedAt,
+	}
+}
+
+func NewResponseComment(data *models.Comment) *ResponseComment {
+	return &ResponseComment{
+		ID:        data.ID,
+		PhotoID:   data.PhotoID,
+		Message:   data.Message,
 		UserID:    data.UserID,
 		CreatedAt: data.CreatedAt,
 	}

@@ -12,13 +12,13 @@ import (
 )
 
 // PhotoInsert godoc
-// @Summary Create new Photos
-// @Description Create new Photos
-// @Param data body transports.RequestUser true "User data"
-// @Success 201 {object} transports.RequestUser "User data"
-// @Failure 400 {object} transports.Response
-// @Router /users/register [post]
-// @Tags Users
+// @Summary Create new Photo
+// @Description Create new Photo
+// @Param data body transports.RequestPhoto true "Photo data"
+// @Success 201 {object} transports.RequestPhoto "Photo data"
+// @Failure 400 {object} transports.ResponsePhoto
+// @Router /photos/register [post]
+// @Tags Photos
 func PhotoInsert(c *gin.Context) {
 	db := lib.DB
 	req := transports.RequestPhoto{}
@@ -54,8 +54,8 @@ func PhotoInsert(c *gin.Context) {
 // GetListPhotos godoc
 // @Summary List of Photos
 // @Description List of Photos
-// @Success 200 {object} []transports.Request List of Photos
-// @Failure 400 {object} transports.Response
+// @Success 200 {object} []transports.RequestPhoto List of Photos
+// @Failure 400 {object} transports.ResponsePhoto
 // @Router /photos [get]
 // @Tags Photos
 func GetListPhotos(c *gin.Context) {
@@ -85,9 +85,9 @@ func GetListPhotos(c *gin.Context) {
 // PhotoUpdate godoc
 // @Summary Update Photo by id
 // @Description Update Photo by id
-// @Param data body transports.Request true "Photo data"
-// @Success 200 {object} transports.Request "Photo data"
-// @Failure 400 {object} transports.Response
+// @Param data body transports.RequestPhoto true "Photo data"
+// @Success 200 {object} transports.ResponsePhoto "Photo data"
+// @Failure 400 {object} transports.ResponsePhoto
 // @Router /photos/{id} [put]
 // @Tags Users
 func PhotoUpdate(c *gin.Context) {
@@ -100,7 +100,7 @@ func PhotoUpdate(c *gin.Context) {
 		return
 	}
 
-	photoID, _ := strconv.Atoi(c.Param("photoID"))
+	photoID, _ := strconv.Atoi(c.Param("photoId"))
 
 	if err := lib.Auth(c.GetHeader("Authorization")); err != nil {
 		transports.SendResponse(c, http.StatusBadRequest, nil, err)
@@ -138,16 +138,15 @@ func PhotoUpdate(c *gin.Context) {
 // PhotoDelete godoc
 // @Summary Delete Photo by id
 // @Description Delete Photo by id
-// @Param data body transports.Request true "Photo data"
-// @Success 200 {object} transports.Response
-// @Failure 400 {object} transports.Response
+// @Success 200 {object} transports.ResponsePhoto
+// @Failure 400 {object} transports.ResponsePhoto
 // @Router /photos/{id} [delete]
 // @Tags Photos
 func PhotoDelete(c *gin.Context) {
 	db := lib.DB
 	var repoPhoto repository.IPhoto
 
-	photoID, _ := strconv.Atoi(c.Param("photoID"))
+	photoID, _ := strconv.Atoi(c.Param("photoId"))
 
 	if err := lib.Auth(c.GetHeader("Authorization")); err != nil {
 		transports.SendResponse(c, http.StatusBadRequest, nil, err)
