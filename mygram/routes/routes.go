@@ -26,5 +26,11 @@ func CreateRouter() *gin.Engine {
 	r.PUT("/comments/:commentId", controllers.CommentUpdate)
 	r.DELETE("/comments/:commentId", controllers.CommentDelete)
 
+	// Social Medias
+	r.POST("/socialmedias", controllers.SocialMediaInsert)
+	r.GET("/socialmedias", controllers.GetListSocialMedias)
+	r.PUT("/socialmedias/:socialMediaId", controllers.SocialMediaUpdate)
+	r.DELETE("/socialmedias/:socialMediaId", controllers.SocialMediaDelete)
+
 	return r
 }
