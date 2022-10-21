@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <title>
+        Weather Status
+    </title>
+</header>
+
+<body>
+    <h2>Wind: {{ .status.Wind }} meter/detik</h2>
+    <h2>Water: {{ .status.Water }} meter</h2>
+    <h2>
+    {{ if lt .status.Water 5 }}
+        Status Water: Aman
+    {{ else if gt .status.Water 8 }}
+        Status Water: Bahaya
+    {{ else }}
+        Status Water: Siaga
+    {{ end }}
+
+    <br />
+
+    {{ if lt .status.Wind 6 }}
+        Status Wind: Aman
+    {{ else if gt .status.Wind 15 }}
+        Status Wind: Bahaya
+    {{ else }}
+        Status Wind: Siaga
+    {{ end }}
+    </h2>
+</body>
+</html>
