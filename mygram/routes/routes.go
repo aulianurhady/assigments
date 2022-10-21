@@ -10,9 +10,9 @@ func CreateRouter() *gin.Engine {
 
 	// Users
 	r.POST("/users/register", controllers.UserRegister)
-	// r.POST("/users/login", controllers.GetOrders)
-	// r.PUT("/users", controllers.UpdateOrder)
-	// r.DELETE("/users", controllers.RemoveOrder)
+	r.POST("/users/login", controllers.UserLogin)
+	r.PUT("/users", controllers.UserUpdate)
+	r.DELETE("/users", controllers.UserDelete)
 
 	return r
 }
