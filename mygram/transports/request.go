@@ -6,3 +6,9 @@ type RequestUser struct {
 	Password string `json:"password,omitempty"`
 	Username string `json:"username,omitempty"`
 }
+
+type RequestPhoto struct {
+	Title    string `json:"title,omitempty"`
+	Caption  string `json:"caption,omitempty"`
+	PhotoURL string `json:"photo_url,omitempty"`
+}

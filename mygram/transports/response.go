@@ -15,6 +15,15 @@ type responseUser struct {
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 }
 
+type responsePhoto struct {
+	ID        int        `json:"id,omitempty"`
+	Title     string     `json:"title,omitempty"`
+	Caption   string     `json:"caption,omitempty"`
+	PhotoURL  string     `json:"photo_url,omitempty"`
+	UserID    int        `json:"user_id,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
 func NewResponseUser(data *models.User) *responseUser {
 	return &responseUser{
 		Age:       data.Age,
@@ -22,6 +31,17 @@ func NewResponseUser(data *models.User) *responseUser {
 		ID:        data.ID,
 		Username:  data.Username,
 		UpdatedAt: data.UpdatedAt,
+	}
+}
+
+func NewResponsePhoto(data *models.Photo) *responsePhoto {
+	return &responsePhoto{
+		ID:        data.ID,
+		Title:     data.Title,
+		Caption:   data.Caption,
+		PhotoURL:  data.PhotoURL,
+		UserID:    data.UserID,
+		CreatedAt: data.CreatedAt,
 	}
 }
 

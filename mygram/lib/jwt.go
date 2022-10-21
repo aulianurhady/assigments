@@ -11,6 +11,7 @@ var (
 	JWT_SIGNATURE_KEY  = []byte("my_secret_key")
 	JWT_SIGNING_METHOD = jwt.SigningMethodHS256
 
+	userID   int
 	username string
 	email    string
 )
@@ -18,13 +19,15 @@ var (
 type Claims struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
+	UserID   int    `json:"user_id"`
 	jwt.StandardClaims
 }
 
-func BuildJWT(username, email string) (string, error) {
+func BuildJWT(id int, username, email string) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 
 	claims := &Claims{
+		UserID:   id,
 		Username: username,
 		Email:    email,
 		StandardClaims: jwt.StandardClaims{
@@ -42,7 +45,7 @@ func BuildJWT(username, email string) (string, error) {
 	return tokenString, nil
 }
 
-func ClaimJWT(tokenString string) (string, string, error) {
+func ClaimJWT(tokenString string) (int, string, string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Signing method invalid")
@@ -54,27 +57,31 @@ func ClaimJWT(tokenString string) (string, string, error) {
 	})
 
 	if err != nil {
-		return "", "", errors.New("Token cannot claim")
+		return 0, "", "", errors.New("Token cannot claim")
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
-		return "", "", errors.New("Token cannot claim")
+		return 0, "", "", errors.New("Token cannot claim")
 	}
 
-	setClaimData(claims["username"].(string), claims["email"].(string))
+	setClaimData(claims["user_id"].(int), claims["username"].(string), claims["email"].(string))
 
-	return claims["username"].(string), claims["email"].(string), nil
+	return claims["user_id"].(int), claims["username"].(string), claims["email"].(string), nil
 }
 
-func setClaimData(claimUsername, claimEmail string) {
-	username, email = claimUsername, claimEmail
+func setClaimData(claimUserID int, claimUsername, claimEmail string) {
+	userID, username, email = claimUserID, claimUsername, claimEmail
 }
 
-func GetUsernameFromClaim() string {
-	return username
+func GetUserIDFromClaim() *int {
+	return &userID
 }
 
-func GetEmailFromClaim() string {
-	return email
+func GetUsernameFromClaim() *string {
+	return &username
+}
+
+func GetEmailFromClaim() *string {
+	return &email
 }

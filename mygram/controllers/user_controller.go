@@ -42,7 +42,7 @@ func UserRegister(c *gin.Context) {
 	}
 
 	if err := repoUser.Register(db, &userData); err != nil {
-		transports.SendResponse(c, http.StatusBadRequest, nil, err)
+		transports.SendResponse(c, http.StatusInternalServerError, nil, err)
 		return
 	}
 
@@ -84,7 +84,7 @@ func UserLogin(c *gin.Context) {
 		return
 	}
 
-	tokenString, err := lib.BuildJWT(userData.Username, userData.Email)
+	tokenString, err := lib.BuildJWT(userData.ID, userData.Username, userData.Email)
 	if err != nil {
 		transports.SendResponse(c, http.StatusInternalServerError, nil, err)
 		return
@@ -115,18 +115,18 @@ func UserUpdate(c *gin.Context) {
 		return
 	}
 
-	if err := lib.Auth(c.GetHeader("Authorization"), req.Username, req.Email); err != nil {
+	if err := lib.Auth(c.GetHeader("Authorization")); err != nil {
 		transports.SendResponse(c, http.StatusBadRequest, nil, err)
 		return
 	}
 
 	userData := models.User{
-		Username: lib.GetUsernameFromClaim(),
-		Email:    lib.GetEmailFromClaim(),
+		Username: *lib.GetUsernameFromClaim(),
+		Email:    *lib.GetEmailFromClaim(),
 	}
 
 	if err := repoUser.UpdateDataUser(db, &userData); err != nil {
-		transports.SendResponse(c, http.StatusBadRequest, nil, err)
+		transports.SendResponse(c, http.StatusInternalServerError, nil, err)
 		return
 	}
 
@@ -145,22 +145,16 @@ func UserUpdate(c *gin.Context) {
 // @Tags Users
 func UserDelete(c *gin.Context) {
 	db := lib.DB
-	req := transports.RequestUser{}
 	var repoUser repository.IUser
 
-	if err := c.BindJSON(&req); err != nil {
-		transports.SendResponse(c, http.StatusBadRequest, nil, err)
-		return
-	}
-
-	if err := lib.Auth(c.GetHeader("Authorization"), req.Username, req.Email); err != nil {
+	if err := lib.Auth(c.GetHeader("Authorization")); err != nil {
 		transports.SendResponse(c, http.StatusBadRequest, nil, err)
 		return
 	}
 
 	userData := models.User{
-		Username: lib.GetUsernameFromClaim(),
-		Email:    lib.GetEmailFromClaim(),
+		Username: *lib.GetUsernameFromClaim(),
+		Email:    *lib.GetEmailFromClaim(),
 	}
 
 	if err := repoUser.DeleteDataUser(db, &userData); err != nil {

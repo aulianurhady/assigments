@@ -5,15 +5,15 @@ import (
 	"strings"
 )
 
-func Auth(authorization, username, email string) error {
+func Auth(authorization string) error {
 	tokenString := strings.Replace(authorization, "Bearer ", "", -1)
 
-	claimUsername, claimEmail, err := ClaimJWT(tokenString)
+	claimUserID, claimUsername, claimEmail, err := ClaimJWT(tokenString)
 	if err != nil {
 		return errors.New("Cannot authorization")
 	}
 
-	if claimUsername != username || claimEmail != email {
+	if claimUserID != 0 || claimUsername != "" || claimEmail != "" {
 		return errors.New("Cannot authorization")
 	}
 
